@@ -24,7 +24,6 @@ def mark_for_moving(board):
                     row_empty = False
                     break
                 else:
-                    # Doesn't work because it's by value not by reference
                     row_calc = len(board) - row - 1
                     board[row_calc][column] = 'Y'
                     marked_a_piece = True
@@ -60,6 +59,8 @@ def read_in_board(board_input):
     board = []
     board_lines = board_input.split('\n')
     for line in board_lines:
+        if line == '':
+            continue
         board.append(list(line))
 
     return board
@@ -93,11 +94,25 @@ def clear_out_lines(board):
         for column, block in enumerate(line):
             is_all_x = is_all_x and block in ['X','Y']
         if is_all_x:
-            del new_board[row]
-            new_board.insert(0, ['.' for i in range(0,len(line))])
+            new_board[row] = ['.' for i in range(0,len(line))]
             num_cleared += 1
 
     return new_board, num_cleared
+
+def stabilize_base(board):
+    new_board = duplicate_board(board)
+    backwards_board = reversed(board)
+    for row, line in enumerate(backwards_board):
+        line_is_empty = True
+        for column, block in enumerate(line):
+            line_is_empty = line_is_empty and block == '.'
+        if line_is_empty:
+            row_calc = len(board) - 1 - row
+            del new_board[row_calc]
+            new_board.insert(0, ['.' for x in range(0,len(line))])
+        else:
+            break
+    return new_board
 
 def debug_board(board):
     for index, line in enumerate(board):
@@ -115,6 +130,10 @@ if __name__ == "__main__":
             #debug_board(tetris_board)
         tetris_board, num_cleared = clear_out_lines(tetris_board)
         total_cleared += num_cleared
+        tetris_board = stabilize_base(tetris_board)
+        # Need to re-stabilize base before re-marking
+        debug_board(tetris_board)
+        mark_for_moving(tetris_board)
 
     print total_cleared
     debug_board(tetris_board)
