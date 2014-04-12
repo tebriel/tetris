@@ -58,6 +58,8 @@ def read_in_board(board_input):
     board = []
     board_lines = board_input.split('\n')
     for line in board_lines:
+        if line == '':
+            continue
         board.append(list(line))
 
     return board
