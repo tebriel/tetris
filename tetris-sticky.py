@@ -132,8 +132,8 @@ if __name__ == "__main__":
         total_cleared += num_cleared
         tetris_board = stabilize_base(tetris_board)
         # Need to re-stabilize base before re-marking
-        debug_board(tetris_board)
+        # debug_board(tetris_board)
         mark_for_moving(tetris_board)
 
     print total_cleared
-    debug_board(tetris_board)
+    # debug_board(tetris_board)
