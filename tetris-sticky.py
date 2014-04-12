@@ -34,6 +34,7 @@ def mark_for_moving(board):
     return marked_a_piece
 
 def can_move_piece_down(board):
+    """Determine if the piece can move downwards"""
     # Pretend it's a graph, bottom left is (0,0)
     backwards_board = reversed(board)
     cant_go_no_further_down = False
@@ -52,6 +53,9 @@ def can_move_piece_down(board):
             if (row == 0) or (board[row_calc][column] == 'X'):
                 cant_go_no_further_down = True
                 break
+    # I DON'T NEED YOUR JUDGEMENT ON MY VARIABLE NAMES
+    # TODO: This is crazy confusing, at some point I might actually need to
+    #   know what this does...
     return not cant_go_no_further_down and found_to_move
 
 def read_in_board(board_input):
@@ -100,6 +104,8 @@ def clear_out_lines(board):
     return new_board, num_cleared
 
 def stabilize_base(board):
+    """Remove empty lines from the base, to give us a base that isn't expecting
+    to fall"""
     new_board = duplicate_board(board)
     backwards_board = reversed(board)
     for row, line in enumerate(backwards_board):
@@ -115,6 +121,7 @@ def stabilize_base(board):
     return new_board
 
 def debug_board(board):
+    """ Print out the board so that we can see what the heck is going on"""
     for index, line in enumerate(board):
         print index + 1, line
 
