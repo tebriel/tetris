@@ -103,10 +103,12 @@ def debug_board(board):
         print index + 1, line
 
 
-tetris_board = read_in_board(argv[1])
-mark_for_moving(tetris_board)
-while can_move_piece_down(tetris_board):
-    tetris_board = move_piece_downward(tetris_board)
-    #debug_board(tetris_board)
-tetris_board, num_cleared = clear_out_lines(tetris_board)
-print num_cleared
+if __name__ == "__main__":
+    tetris_board = read_in_board(argv[1])
+    mark_for_moving(tetris_board)
+    while can_move_piece_down(tetris_board):
+        tetris_board = move_piece_downward(tetris_board)
+        #debug_board(tetris_board)
+    tetris_board, num_cleared = clear_out_lines(tetris_board)
+
+    print num_cleared
