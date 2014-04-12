@@ -5,10 +5,10 @@ Written by Chris Moultrie <chris@moultrie.org> @tebriel
 Available on Github at https://github.com/tebriel/tetris
 This was a lot of fun, thanks.
 
-Usage: python tetris.py <filename>
+Usage: cat <filename> | python tetris.py
 """
 
-from sys import argv
+import sys
 
 def mark_for_moving(board):
     """Runs up the board from the bottom, finding a floating piece and marking
@@ -53,13 +53,12 @@ def can_move_piece_down(board):
                 break
     return not cant_go_no_further_down
 
-def read_in_board(file_name):
+def read_in_board(board_input):
     """Builds the 2D list with all the board's blocks"""
     board = []
-    with open(file_name) as tetris_file:
-        for line in tetris_file:
-            line = line.rstrip('\n')
-            board.append(list(line))
+    board_lines = board_input.split('\n')
+    for line in board_lines:
+        board.append(list(line))
 
     return board
 
@@ -104,7 +103,7 @@ def debug_board(board):
 
 
 if __name__ == "__main__":
-    tetris_board = read_in_board(argv[1])
+    tetris_board = read_in_board(sys.stdin.read())
     mark_for_moving(tetris_board)
     while can_move_piece_down(tetris_board):
         tetris_board = move_piece_downward(tetris_board)
